@@ -18,3 +18,6 @@ def start(url):
 
 
 start('http://boards.4chan.org/tv/thread/90623217')
+
+# http://boards.4chan.org/tv/catalog
+# dopóki counter postów mniejszy od zakładanej wartości to odwiedzaj kolejne tablice i pobieraj posty
