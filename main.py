@@ -6,6 +6,7 @@ from crawler4chan import *
 
 def main():
     database = "posts.db"
+    url = "http://boards.4chan.org/tv/catalog"
 
     sql_create_posts_table = """ CREATE TABLE IF NOT EXISTS posts (
                                      post_id integer primary key autoincrement,
@@ -25,7 +26,6 @@ def main():
                                     );"""
 
     
-    url = "http://boards.4chan.org/tv/catalog"
 
     # create a database connection
     conn = create_connection(database)
@@ -35,29 +35,12 @@ def main():
     else:
         print("Error! cannot create the database connection.")
     
-    trade_spider(url)
+    trade_spider(url, conn)
+    close_connection(conn)
 
 
 if __name__ == '__main__':
     main()
 
 
-def start(url):
-    source_code = requests.get(url).text
-    soup = BeautifulSoup(source_code, "html.parser")
-    for post_text in soup.findAll('blockquote', {'class': 'postMessage'}):
-        for link in soup.findAll('a', {'class': 'quotelink'}):
-            link.decompose()
-        for br in soup.find_all("br"):
-            br.replace_with("\n")
-        content = post_text.get_text()
-        content = content.strip()
-        if content is "":
-            continue
-        print(content)
 
-
-#start('http://boards.4chan.org/tv/thread/90623217')
-
-# http://boards.4chan.org/tv/catalog
-# dopóki counter postów mniejszy od zakładanej wartości to odwiedzaj kolejne tablice i pobieraj posty
