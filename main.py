@@ -32,11 +32,10 @@ def main():
     if conn is not None:
         create_table(conn, sql_create_posts_table)
         create_table(conn, sql_create_comments_table)
+        trade_spider(url, conn)
+        close_connection(conn)
     else:
         print("Error! cannot create the database connection.")
-    
-    trade_spider(url, conn)
-    close_connection(conn)
 
 
 if __name__ == '__main__':
